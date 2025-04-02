@@ -1,0 +1,116 @@
+/* Mobile-specific styles - will be applied to screens under 768px */
+@media screen and (max-width: 767px) {
+    .book-container {
+        flex-direction: column;
+        height: auto;
+        max-width: 100%;
+        margin: 0;
+        padding-top: 10px; /* Reduced padding since we no longer have top navigation */
+    }
+
+    /* Hide the grid on mobile - we'll just show the detail view with 乾卦 */
+    .left-page {
+        display: none !important;
+    }
+
+    .middle-page, .right-page {
+        flex: none;
+        width: 100%;
+        height: auto;
+        min-height: 300px;
+        padding: 15px;
+    }
+
+    /* Reorder for mobile - put 爻辭 (right page) first, then 卦辭 (middle page) */
+    .right-page {
+        order: 1;
+        border-left: none;
+        border-right: none;
+        border-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 20px;
+        display: block !important;
+    }
+
+    .middle-page {
+        order: 2;
+        border-top: 1px solid #d3c7a7;
+        border-left: none;
+        border-right: none;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        display: block !important;
+    }
+
+    /* Hide mobile navigation - no longer needed */
+    .mobile-nav {
+        display: none !important;
+    }
+
+    .hexagram-title {
+        font-size: 36px;
+    }
+
+    .chinese-name {
+        font-size: 18px;
+    }
+
+    .guaci {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .hexagram-info {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+    .meta-footer {
+        position: relative;
+        font-size: 12px;
+        padding: 10px;
+    }
+    
+    /* Adjustments for the yaoci section */
+    .yao {
+        margin-bottom: 10px;
+        padding-left: 5px;
+    }
+    
+    .yao-content {
+        font-size: 14px;
+    }
+    
+    /* Divider for mobile */
+    .mobile-divider {
+        display: block;
+        height: 1px;
+        background-color: #d3c7a7;
+        margin: 20px 0;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Combined view heading */
+    .section-heading {
+        font-size: 18px;
+        color: #5a3921;
+        text-align: center;
+        margin: 15px 0;
+        font-weight: bold;
+        background-color: #f0e6d2;
+        padding: 8px 0;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Hide the 爻辭 heading */
+    .right-heading {
+        display: none;
+    }
+} 

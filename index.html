@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易經 - 六十四卦</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.mobile.css">
+</head>
+<body>
+    <div class="book-container">
+        <div class="left-page">
+            <div class="hexagram-grid" id="hexagram-grid">
+                <!-- Will be populated with hexagrams by JavaScript -->
+            </div>
+        </div>
+        <div class="middle-page" id="hexagram-main">
+            <div class="loading">請選擇一卦...</div>
+        </div>
+        <div class="right-page" id="hexagram-yaoci">
+            <div class="loading">請選擇一卦...</div>
+        </div>
+    </div>
+    
+    <!-- Mobile navigation -->
+    <div class="mobile-nav" id="mobile-nav" style="display: none;">
+        <div class="nav-button active" data-page="left">六十四卦</div>
+        <div class="nav-button" data-page="details">卦詳情</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let hexagramData;
+            let activeHexagram = null;
+            let currentLines = [];
+
+            // Fetch the hexagram data from the JSON file
+            fetch('hexagram.json')
+                .then(response => response.json())
+                .then(data => {
+                    hexagramData = data.易經;
+                    populateHexagramGrid();
+                    
+                    // Find and display 乾卦 as the default hexagram
+                    let qianSymbol = null;
+                    for (const symbol in hexagramData) {
+                        if (hexagramData[symbol].中文 === '乾') {
+                            qianSymbol = symbol;
+                            break;
+                        }
+                    }
+                    
+                    if (qianSymbol) {
+                        // Display Qian hexagram
+                        displayHexagram(qianSymbol);
+                        updateHexagramGrid(qianSymbol);
+                    } else {
+                        // If Qian not found, display the first hexagram in the data
+                        const firstSymbol = Object.keys(hexagramData)[0];
+                        if (firstSymbol) {
+                            displayHexagram(firstSymbol);
+                            updateHexagramGrid(firstSymbol);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading hexagram data:', error);
+                    document.getElementById('hexagram-main').innerHTML = 
+                        '<div class="loading">加載數據時出錯，請檢查控制台。</div>';
+                });
+
+            function populateHexagramGrid() {
+                const grid = document.getElementById('hexagram-grid');
+                const hexagramSymbols = Object.keys(hexagramData);
+                
+                hexagramSymbols.forEach(symbol => {
+                    const cell = document.createElement('div');
+                    cell.className = 'hexagram-cell';
+                    cell.textContent = symbol;
+                    cell.addEventListener('click', () => {
+                        displayHexagram(symbol);
+                        updateHexagramGrid(symbol);
+                    });
+                    grid.appendChild(cell);
+                });
+            }
+
+            // Convert hexagram symbol to binary representation (0 = yin, 1 = yang)
+            function symbolToLines(symbol) {
+                // Unicode hexagrams start from ䷀ (U+4DC0)
+                const hexIndex = symbol.codePointAt(0) - 0x4DC0;
+                
+                // Convert to binary and pad to 6 digits
+                let binary = hexIndex.toString(2).padStart(6, '0');
+                
+                // Convert binary to array of 0s and 1s
+                return binary.split('').map(bit => parseInt(bit));
+            }
+
+            // Convert binary representation back to hexagram symbol
+            function linesToSymbol(lines) {
+                // Convert array of 0s and 1s to binary string
+                const binary = lines.join('');
+                
+                // Convert binary to decimal
+                const hexIndex = parseInt(binary, 2);
+                
+                // Convert decimal to Unicode character
+                return String.fromCodePoint(0x4DC0 + hexIndex);
+            }
+
+            function displayHexagram(symbol) {
+                console.log(`Displaying hexagram: ${symbol}`);
+                
+                // Get hexagram data
+                const hexagram = hexagramData[symbol];
+                
+                if (!hexagram) {
+                    console.error(`Hexagram data not found for symbol: ${symbol}`);
+                    return;
+                }
+                
+                // Update active hexagram tracking
+                activeHexagram = symbol;
+                
+                // Update the content in each pane
+                const mainDisplay = document.getElementById('hexagram-main');
+                const yaoDisplay = document.getElementById('hexagram-yaoci');
+                
+                // Create main panel content
+                let mainHtml = `
+                    <div class="pane-header">
+                        <div class="hexagram-title">${symbol}</div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <div class="chinese-name">${hexagram.中文 || ''}</div>
+                        <div class="guaci">${hexagram.卦辭 || ''}</div>
+                    </div>
+                    
+                    <div class="hexagram-details">
+                        <h2>彖辭</h2>
+                        <div class="hexagram-info">${hexagram.彖辭 || ''}</div>
+                        
+                        <h2>象辭</h2>
+                        <div class="hexagram-info">${hexagram.象辭 || ''}</div>
+                    </div>
+                    
+                    <div class="meta-footer">
+                        <div><strong>卦序:</strong> ${hexagram.卦序 || ''}</div>
+                        <div><strong>英文:</strong> ${hexagram.英文 || ''}</div>
+                    </div>
+                `;
+                
+                // Create yao panel content
+                let yaoHtml = `
+                    <div style="height: 30px;"></div>
+                    
+                    <div class="yao-section" style="margin-top: 0; border-left: none; border-right: none;">
+                `;
+                
+                // Add each yao (line) interpretation in reverse order (from 上 to 初)
+                const yaoOrder = ["上", "五", "四", "三", "二", "初"];
+                
+                // Check if 爻辭 exists before trying to access it
+                if (!hexagram.爻辭) {
+                    console.error(`No 爻辭 property found for hexagram: ${symbol}`);
+                    yaoHtml += `<div class="error-message">No line interpretations available</div>`;
+                } else {
+                    yaoOrder.forEach(position => {
+                        if (hexagram && hexagram.爻辭 && hexagram.爻辭[position].數 !== undefined) {
+                            const yao = hexagram.爻辭[position];
+                            const lineNumber = yao.數;
+                            const positionIndex = yaoOrder.indexOf(position); // Get position index for line changes
+                            
+                            // Create consistent div structure with fixed heights and add click event
+                            let lineHtml = `
+                                <div class="bar-container" style="text-align: center; width: 80%; margin: 0 auto; border: none; cursor: pointer;" 
+                                     data-position="${position}" data-line-index="${5-positionIndex}" data-current-type="${lineNumber === 9 ? 'yang' : 'yin'}">
+                                    <div class="bar-title" style="font-size: 0.75em; text-align: center; color: #777; height: 14px; border: none;">
+                                        ${yao.陰陽}
+                            </div>
+                                    <div style="height: 5px;"></div>
+                                    <div class="bar-symbol" style="margin-bottom: 2px; height: 24px; border: none;">`;
+                                    
+                            if (lineNumber === 9) {
+                                lineHtml += `
+                                    <div class="yang-bar" style="font-size: 24px; line-height: 0.8; letter-spacing: -3px; height: 24px;">███████</div>`;
+                            } else {
+                                lineHtml += `
+                                    <div class="yin-bar" style="height: 24px;">
+                                        <span style="font-size: 24px; line-height: 0.8; letter-spacing: -3px;">███</span>
+                                        <span style="display: inline-block; width: 16px;"></span>
+                                        <span style="font-size: 24px; line-height: 0.8; letter-spacing: -3px;">███</span>
+                                    </div>`;
+                            }
+                            
+                            lineHtml += `
+                                    </div>
+                                </div>`;
+                        
+                        yaoHtml += `
+                                <div class="yao" style="margin-bottom: 10px; padding: 0; border: none; box-shadow: none;">
+                                    <div class="yao-title" style="padding: 0; text-align: center; margin: 0; border: none;">
+                                        ${lineHtml}
+                                    </div>
+                                    
+                                    <div class="yao-content" style="position: relative; margin: 0; padding: 0; height: 3.8em; max-height: 3.8em; overflow: hidden; text-align: center; border: none; line-height: 1.25;">
+                                        <div style="font-size: 1em;"><strong>${yao.爻辭}</strong></div>
+                                        <div style="font-size: 0.85em; color: #555;">${yao.象辭}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                }
+                
+                yaoHtml += `
+                    </div>
+                `;
+                
+                // Update the content
+                mainDisplay.innerHTML = mainHtml;
+                yaoDisplay.innerHTML = yaoHtml;
+                
+                // Add click event listeners to bars to toggle yin/yang
+                document.querySelectorAll('.bar-container').forEach(barContainer => {
+                    barContainer.addEventListener('click', handleBarClick);
+                });
+                
+                console.log(`Displayed hexagram ${symbol} successfully`);
+            }
+            
+            // Update the handleBarClick function with the correct line ordering
+            function handleBarClick() {
+                try {
+                    const position = this.getAttribute('data-position');
+                    const lineIndex = parseInt(this.getAttribute('data-line-index'));
+                    const currentType = this.getAttribute('data-current-type');
+                    
+                    console.log(`Clicked bar: Position=${position}, LineIndex=${lineIndex}, CurrentType=${currentType}`);
+                    
+                    // Get the current hexagram symbol
+                    const currentSymbol = document.querySelector('.hexagram-title').textContent;
+                    const hexagram = hexagramData[currentSymbol];
+                    
+                    if (!hexagram || !hexagram.爻辭) {
+                        console.error('Cannot find current hexagram data');
+                        return;
+                    }
+                    
+                    // Toggle the line between yin and yang
+                    const newType = currentType === 'yang' ? 'yin' : 'yang';
+                    const newLineNumber = newType === 'yang' ? 9 : 6;
+                    
+                    console.log(`Toggling to: NewType=${newType}, NewLineNumber=${newLineNumber}`);
+                    
+                    // The yaoOrder is the display order from 上 to 初
+                    const yaoOrder = ["上", "五", "四", "三", "二", "初"];
+                    
+                    // Collect the current lines in the correct order (初 to 上) for finding the matching hexagram
+                    let binaryLines = [];
+                    
+                    // First, collect current lines from the existing hexagram
+                    for (let i = yaoOrder.length - 1; i >= 0; i--) {
+                        const pos = yaoOrder[i];
+                        if (hexagram.爻辭[pos] && hexagram.爻辭[pos].數 !== undefined) {
+                            const lineNum = hexagram.爻辭[pos].數;
+                            binaryLines.push(lineNum === 9 ? 1 : 0);
+                        } else {
+                            console.error(`Missing 數 property for position ${pos}`);
+                            return;
+                        }
+                    }
+                    
+                    console.log('Current binary lines (初 to 上):', binaryLines);
+                    
+                    // Now update the specific line that was clicked
+                    // The position needs to be mapped from display order to data order
+                    const dataIndex = yaoOrder.length - 1 - yaoOrder.indexOf(position);
+                    binaryLines[dataIndex] = newType === 'yang' ? 1 : 0;
+                    
+                    console.log('New binary lines (初 to 上):', binaryLines);
+                    
+                    // Find the hexagram matching these lines
+                    const newHexagramSymbol = findHexagramByLines(binaryLines);
+                    
+                    console.log('New hexagram symbol:', newHexagramSymbol);
+                    
+                    if (newHexagramSymbol) {
+                        // Update the display with the new hexagram
+                        displayHexagram(newHexagramSymbol);
+                        // Update the grid highlighting
+                        updateHexagramGrid(newHexagramSymbol);
+                    } else {
+                        console.error('No matching hexagram found for the new line configuration');
+                    }
+                } catch (error) {
+                    console.error('Error in bar click handler:', error);
+                }
+            }
+            
+            // Update the findHexagramByLines function to match in the correct order
+            function findHexagramByLines(binaryLines) {
+                console.log('Finding hexagram for lines (初 to 上):', binaryLines);
+                
+                if (!binaryLines || binaryLines.length !== 6) {
+                    console.error('Invalid binary lines array. Must contain exactly 6 lines.');
+                    return null;
+                }
+                
+                // Convert binary lines to numbers (9 for yang, 6 for yin)
+                const lineNumbers = binaryLines.map(line => line === 1 ? 9 : 6);
+                console.log('Line numbers to find (初 to 上):', lineNumbers.join(','));
+                
+                // Build a string representation of the lines to compare (e.g., "996969")
+                const targetLineString = lineNumbers.join('');
+                console.log('Target line string:', targetLineString);
+                
+                // Check each hexagram to find matching line configuration
+                for (const symbol in hexagramData) {
+                    const hexagram = hexagramData[symbol];
+                    
+                    // Skip if no 爻辭
+                    if (!hexagram || !hexagram.爻辭) {
+                        continue;
+                    }
+                    
+                    // Build the line string for this hexagram in 初 to 上 order
+                    const yaoPositions = ["初", "二", "三", "四", "五", "上"];
+                    let currentLineString = '';
+                    let isComplete = true;
+                    
+                    for (const position of yaoPositions) {
+                        if (hexagram.爻辭[position] && hexagram.爻辭[position].數 !== undefined) {
+                            currentLineString += hexagram.爻辭[position].數;
+                        } else {
+                            isComplete = false;
+                            break;
+                        }
+                    }
+                    
+                    if (!isComplete) continue;
+                    
+                    if (currentLineString === targetLineString) {
+                        console.log(`MATCH FOUND: ${symbol} (${hexagram.中文 || ''})`);
+                        return symbol;
+                    }
+                }
+                
+                // If we reach here, try a more lenient approach by comparing individual lines
+                console.log('No exact match found, trying partial matching...');
+                
+                // Build an array to track partial matches with their match count
+                let partialMatches = [];
+                
+                for (const symbol in hexagramData) {
+                    const hexagram = hexagramData[symbol];
+                    
+                    if (!hexagram || !hexagram.爻辭) continue;
+                    
+                    const yaoPositions = ["初", "二", "三", "四", "五", "上"];
+                    let matchCount = 0;
+                    let totalLines = 0;
+                    
+                    for (let i = 0; i < yaoPositions.length; i++) {
+                        const position = yaoPositions[i];
+                        
+                        if (hexagram.爻辭[position] && hexagram.爻辭[position].數 !== undefined) {
+                            totalLines++;
+                            if (hexagram.爻辭[position].數 === lineNumbers[i]) {
+                                matchCount++;
+                            }
+                        }
+                    }
+                    
+                    // Consider it a match if at least 5 out of 6 lines match
+                    if (totalLines === 6 && matchCount >= 5) {
+                        partialMatches.push({
+                            symbol: symbol,
+                            name: hexagram.中文 || '',
+                            matchCount: matchCount
+                        });
+                    }
+                }
+                
+                // Sort by match count (highest first)
+                partialMatches.sort((a, b) => b.matchCount - a.matchCount);
+                
+                // Return the best partial match if any
+                if (partialMatches.length > 0) {
+                    console.log(`Best partial match: ${partialMatches[0].symbol} (${partialMatches[0].name}) with ${partialMatches[0].matchCount} matching lines`);
+                    return partialMatches[0].symbol;
+                }
+                
+                return null;
+            }
+
+            // Add a function to dump hexagram data for debugging
+            function dumpHexagramData() {
+                console.log('Dumping all hexagram data for debugging:');
+                let count = 0;
+                
+                for (const symbol in hexagramData) {
+                    const hexagram = hexagramData[symbol];
+                    count++;
+                    
+                    if (!hexagram.爻辭) {
+                        console.log(`${symbol}: NO YAO DATA`);
+                        continue;
+                    }
+                    
+                    const yaoPositions = ["初", "二", "三", "四", "五", "上"];
+                    let lineString = '';
+                    
+                    for (const position of yaoPositions) {
+                        if (hexagram.爻辭[position] && hexagram.爻辭[position].數 !== undefined) {
+                            lineString += hexagram.爻辭[position].數;
+                        } else {
+                            lineString += 'X';
+                        }
+                    }
+                    
+                    console.log(`${symbol} (${hexagram.中文 || ''}): ${lineString}`);
+                }
+                
+                console.log(`Total hexagrams: ${count}`);
+            }
+
+            // Add code for mobile initialization
+            function setupMobileView() {
+                // Check if we're on mobile
+                function isMobile() {
+                    return window.innerWidth < 768;
+                }
+                
+                // Initialize the view based on device size
+                function handleResize() {
+                    if (isMobile()) {
+                        // Add divider and section heading for 卦辭 in mobile view
+                        const existingMiddleHeading = document.querySelector('.middle-heading');
+                        const existingDivider = document.querySelector('.mobile-divider');
+                        
+                        if (!existingDivider) {
+                            const divider = document.createElement('div');
+                            divider.className = 'mobile-divider';
+                            document.querySelector('.middle-page').insertBefore(divider, document.querySelector('.middle-page').firstChild);
+                        }
+                        
+                        if (!existingMiddleHeading) {
+                            const middleHeading = document.createElement('div');
+                            middleHeading.className = 'section-heading middle-heading';
+                            middleHeading.textContent = '卦辭';
+                            document.querySelector('.middle-page').insertBefore(middleHeading, document.querySelector('.middle-page').firstChild);
+                        }
+                    } else {
+                        // Desktop view - remove mobile-specific elements
+                        const middleHeading = document.querySelector('.middle-heading');
+                        const divider = document.querySelector('.mobile-divider');
+                        
+                        if (middleHeading) middleHeading.remove();
+                        if (divider) divider.remove();
+                    }
+                }
+                
+                // Initialize on page load and when window is resized
+                window.addEventListener('resize', handleResize);
+                handleResize(); // Call once at start
+            }
+
+            // Call this function when the page loads
+            window.addEventListener('load', function() {
+                dumpHexagramData();
+                setupMobileView();
+            });
+            
+            function changeYao(position) {
+                // Toggle the line at the given position (0=yin, 1=yang)
+                currentLines[position] = currentLines[position] === 0 ? 1 : 0;
+                
+                // Get the new hexagram symbol based on the changed lines
+                const newSymbol = linesToSymbol(currentLines);
+                
+                // Check if the new hexagram exists in our data
+                if (hexagramData[newSymbol]) {
+                    // Display the new hexagram
+                    displayHexagram(newSymbol, true);
+                    
+                    // Update active cell in grid
+                    document.querySelectorAll('.hexagram-cell').forEach(cell => {
+                        if (cell.textContent === activeHexagram) {
+                            cell.classList.remove('active');
+                        }
+                        if (cell.textContent === newSymbol) {
+                            cell.classList.add('active');
+                        }
+                    });
+                    
+                    activeHexagram = newSymbol;
+                } else {
+                    alert('找不到對應的卦象，請重試。');
+                    // Revert the change
+                    currentLines[position] = currentLines[position] === 0 ? 1 : 0;
+                }
+            }
+
+            // Add this function to update the hexagram grid highlighting
+            function updateHexagramGrid(newHexagramSymbol) {
+                // Remove active class from all cells
+                document.querySelectorAll('.hexagram-cell').forEach(cell => {
+                    cell.classList.remove('active');
+                });
+                
+                // Add active class to the current hexagram
+                if (newHexagramSymbol) {
+                    document.querySelectorAll('.hexagram-cell').forEach(cell => {
+                        if (cell.textContent === newHexagramSymbol) {
+                            cell.classList.add('active');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

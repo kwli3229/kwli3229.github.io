@@ -1,0 +1,308 @@
+body {
+    font-family: "SimSun", "STKaiti", "NSimSun", serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f2e9;
+    color: #333;
+}
+.book-container {
+    display: flex;
+    max-width: 1400px;
+    height: 800px;
+    margin: 20px auto;
+    border: 1px solid #8b4513;
+    background-color: #fff8e7;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.left-page, .middle-page, .right-page {
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: relative;
+}
+.left-page {
+    flex: 1;
+    background-color: #fffaf0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.middle-page {
+    flex: 1.5;
+    border-left: 1px solid #d3c7a7;
+    border-right: 1px solid #d3c7a7;
+    padding-bottom: 60px; /* Space for footer */
+}
+.right-page {
+    flex: 1;
+    background-color: #fffaf0;
+}
+
+/* Custom scrollbar styling for all panes */
+.middle-page::-webkit-scrollbar,
+.right-page::-webkit-scrollbar {
+    width: 8px;
+}
+.middle-page::-webkit-scrollbar-track,
+.right-page::-webkit-scrollbar-track {
+    background: rgba(211, 199, 167, 0.2);
+    border-radius: 4px;
+}
+.middle-page::-webkit-scrollbar-thumb,
+.right-page::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.5);
+    border-radius: 4px;
+}
+.middle-page::-webkit-scrollbar-thumb:hover,
+.right-page::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.7);
+}
+
+/* Firefox scrollbar styling */
+.middle-page, .right-page {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 69, 19, 0.5) rgba(211, 199, 167, 0.2);
+}
+
+.hexagram-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+.hexagram-cell {
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 2px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+}
+.hexagram-cell:hover {
+    background-color: #f0e6d2;
+}
+.hexagram-cell.active {
+    background-color: #e6d9bc;
+    font-weight: bold;
+}
+.pane-header {
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hexagram-title {
+    font-size: 48px;
+    text-align: center;
+}
+.yaoci-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+}
+.content-section {
+    margin-top: 15px;
+}
+.chinese-name {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #5a3921;
+    font-weight: bold;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.guaci {
+    font-size: 24px;
+    text-align: center;
+    margin: 0 0 30px;
+    font-weight: bold;
+    color: #5a3921;
+    line-height: 1.6;
+}
+.hexagram-details {
+    margin-bottom: 20px;
+}
+.hexagram-info {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+.yao-section {
+    margin-top: 25px;
+}
+.yao {
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 2px solid #d3c7a7;
+}
+.yao-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.yao-title:hover {
+    color: #8b4513;
+}
+.yao-line {
+    display: inline-block;
+    width: 30px;
+    height: 10px;
+    margin-right: 10px;
+    position: relative;
+}
+.yao-line.yang {
+    background-color: #333;
+}
+.yao-line.yin {
+    background-color: #333;
+}
+.yao-line.yin::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 10px;
+    background-color: #fff8e7;
+}
+h2 {
+    border-bottom: 1px solid #d3c7a7;
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+.loading {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    margin-top: 100px;
+}
+.meta-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 20px;
+    background-color: rgba(255, 250, 240, 0.9);
+    border-top: 1px solid #d3c7a7;
+    display: flex;
+    justify-content: space-between;
+    color: #6b5b48;
+    font-size: 14px;
+}
+.hexagram-lines {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+.hexagram-line {
+    width: 40px;
+    height: 8px;
+    margin: 3px 0;
+    position: relative;
+    background-color: #333;
+}
+.hexagram-line.yin::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    background-color: #fff8e7;
+    transform: translateX(-50%);
+}
+.yangbar {
+    width: 20px;
+    height: 10px;
+    background-color: #333;
+    margin-right: 5px;
+}
+.yinbar {
+    width: 20px;
+    height: 10px;
+    background-color: #333;
+    margin-right: 5px;
+}
+.yinbar span {
+    display: block;
+    height: 100%;
+    background-color: #fff8e7;
+}
+.line-symbol {
+    width: 20px;
+    height: 10px;
+    margin-right: 5px;
+}
+.broken-line {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+.yao-line-container {
+    width: 30px;
+    height: 10px;
+    position: relative;
+}
+.solid-line {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+.broken-segment {
+    width: 10px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.line-container {
+    width: 60px;
+    height: 10px;
+    position: relative;
+}
+.yang-line {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+.yin-line {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+.yin-segment {
+    width: 25px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.yin-line-left {
+    width: 10px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.yin-line-right {
+    width: 10px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    top: 0;
+    right: 0;
+} 
