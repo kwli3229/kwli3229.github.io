@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwai Li Portfolio</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #13131f;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8b3;
+            --accent-color: #4ade80;
+            --accent-hover: #22c55e;
+            --accent-gradient: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --spacing: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Serif", "Times New Roman", Georgia, serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            background-image: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            background-attachment: fixed;
+            min-width: 320px; /* Minimum width of iPhone 5/SE */
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            min-width: 320px;
+            margin: 0 auto;
+            padding: 0 var(--spacing);
+            overflow-x: hidden;
+            border-radius: 0;
+        }
+
+        .header {
+            display: none;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo svg {
+            height: 100%;
+            width: auto;
+        }
+
+        .logo svg text {
+            font-family: "Noto Serif", "Times New Roman", Georgia, serif;
+        }
+
+        .talent-section {
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: -2rem;
+            margin-right: -2rem;
+            text-align: center;
+            background: #f5f5f0;
+            padding: 3rem 3rem 3rem 3rem;
+            position: relative;
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .talent-section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 600px;
+            background: linear-gradient(to bottom, 
+                rgba(10, 10, 15, 0) 0%,
+                rgba(10, 10, 15, 0) 20%,
+                rgba(10, 10, 15, 0.1) 30%,
+                rgba(10, 10, 15, 0.2) 40%,
+                rgba(10, 10, 15, 0.3) 50%,
+                rgba(10, 10, 15, 0.5) 60%,
+                rgba(10, 10, 15, 0.7) 70%,
+                rgba(10, 10, 15, 0.9) 85%,
+                rgba(10, 10, 15, 1) 100%
+            );
+            pointer-events: none;
+        }
+
+        .talent-card {
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            min-height: 400px;
+            background: transparent;
+        }
+
+        .talent-name {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            letter-spacing: -0.01em;
+            font-weight: 500;
+            display: none;
+        }
+
+        .talent-name-zh {
+            font-size: 2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .vision-statements {
+            text-align: left;
+            padding: 2rem;
+            background: transparent;
+            border-radius: 16px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+            font-family: "Noto Serif", "Times New Roman", Georgia, serif;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .vision-statement {
+            color: #333;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: normal;
+        }
+
+        .signature-container {
+            position: relative;
+            margin-top: 1rem;
+            padding-bottom: 150px;
+            overflow: visible;
+            width: 100%;
+        }
+        
+        .signature {
+            position: relative;
+            text-align: right;
+            font-family: "Noto Serif", "Times New Roman", Georgia, serif;
+            font-size: 2rem;
+            color: #333;
+            font-style: normal;
+            font-weight: bold;
+            transform: rotate(-5deg);
+            z-index: 2;
+            margin-right: 2rem;
+            margin-bottom: 0;
+            display: block;
+        }
+
+        .film-transition {
+            position: absolute;
+            left: -30vw;
+            right: -30vw;
+            width: 160vw;
+            height: 260px;
+            top: 60px;
+            z-index: 1;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='2000' height='260' viewBox='0 0 2000 260' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3C!-- First film strip (opacity 0.15) --%3E%3Cg opacity='0.15'%3E%3Cpath d='M-200 20 L2200 60' stroke='%23000000' stroke-width='60' fill='none'/%3E%3Cpath d='M-200 0 L2200 40' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 40 L2200 80' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 20 L2200 60' stroke='%23000000' stroke-width='1' stroke-dasharray='76 0'/%3E%3Cpath id='numbers1' d='M-200 20 L2200 60'/%3E%3Ctext font-family='monospace' font-size='6' fill='white' opacity='0.8'%3E%3CtextPath href='%23numbers1'%3E21 22 23 24 25 26 27 28 29 30%3C/textPath%3E%3C/text%3E%3Cpath id='code1' d='M-200 5 L2200 45'/%3E%3Ctext font-family='monospace' font-size='4' fill='white' opacity='0.6'%3E%3CtextPath href='%23code1'%3EFUJI RDPIII 400 • %E2%80%A2 FUJI RDPIII 400 • %E2%80%A2%3C/textPath%3E%3C/text%3E%3C/g%3E%3C!-- Second film strip (opacity 0.3) --%3E%3Cg opacity='0.3'%3E%3Cpath d='M-200 120 L2200 80' stroke='%23000000' stroke-width='60' fill='none'/%3E%3Cpath d='M-200 100 L2200 60' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 140 L2200 100' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 120 L2200 80' stroke='%23000000' stroke-width='1' stroke-dasharray='76 0'/%3E%3Cpath id='numbers2' d='M-200 120 L2200 80'/%3E%3Ctext font-family='monospace' font-size='6' fill='white' opacity='0.8'%3E%3CtextPath href='%23numbers2'%3E31 32 33 34 35 36 37 38 39 40%3C/textPath%3E%3C/text%3E%3Cpath id='code2' d='M-200 105 L2200 65'/%3E%3Ctext font-family='monospace' font-size='4' fill='white' opacity='0.6'%3E%3CtextPath href='%23code2'%3EFUJI RDPIII 400 • %E2%80%A2 FUJI RDPIII 400 • %E2%80%A2%3C/textPath%3E%3C/text%3E%3C/g%3E%3C!-- Third film strip (opacity 0.4) with different angle and 20% overlap --%3E%3Cg opacity='0.4'%3E%3Cpath d='M-200 180 L2200 230' stroke='%23000000' stroke-width='60' fill='none'/%3E%3Cpath d='M-200 160 L2200 210' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 200 L2200 250' stroke='white' stroke-width='6' stroke-dasharray='4 15'/%3E%3Cpath d='M-200 180 L2200 230' stroke='%23000000' stroke-width='1' stroke-dasharray='76 0'/%3E%3Cpath id='numbers3' d='M-200 180 L2200 230'/%3E%3Ctext font-family='monospace' font-size='6' fill='white' opacity='0.8'%3E%3CtextPath href='%23numbers3'%3E41 42 43 44 45 46 47 48 49 50%3C/textPath%3E%3C/text%3E%3Cpath id='code3' d='M-200 165 L2200 215'/%3E%3Ctext font-family='monospace' font-size='4' fill='white' opacity='0.6'%3E%3CtextPath href='%23code3'%3EFUJI RDPIII 400 • %E2%80%A2 FUJI RDPIII 400 • %E2%80%A2%3C/textPath%3E%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: cover;
+            background-position: left top;
+            opacity: 1;
+            margin: 0;
+            transform: translateX(0);
+        }
+
+        .chinese-title {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            white-space: pre-line;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .year {
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0 0 0.4rem 0;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .roles {
+            color: #ffffff;
+            font-size: 0.8rem;
+            margin: 0;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .watch-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent-gradient);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .watch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(193, 127, 89, 0.3);
+        }
+
+        .role {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+        }
+
+        section {
+            background: var(--bg-secondary);
+            border-radius: 0;
+            padding: calc(var(--spacing) * 1.5);
+            margin-bottom: var(--spacing);
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects-section {
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            text-align: center;
+            padding-top: 4rem;
+        }
+
+        .film-reel {
+            display: none;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .projects-section h2 {
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            display: inline-block;
+            font-weight: 500;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0.8;
+            letter-spacing: 0.05em;
+        }
+
+        .project-filters {
+            margin-bottom: calc(var(--spacing) * 2.5);
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: nowrap;
+            padding: 0.8rem;
+            background: transparent;
+            border-radius: 12px;
+            justify-content: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .project-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 0.5rem;
+            border: 1px solid var(--accent-color);
+            background-color: transparent;
+            color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            min-width: 36px;
+            min-height: 36px;
+        }
+
+        .filter-btn svg {
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .filter-btn.active svg {
+            stroke: var(--text-primary);
+        }
+
+        .filter-btn:hover {
+            background-color: rgba(193, 127, 89, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-gradient);
+            color: var(--text-primary);
+            border: none;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            padding: 0;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(193, 127, 89, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            border-color: rgba(193, 127, 89, 0.3);
+        }
+
+        .project-card .poster {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+            background-color: var(--bg-secondary);
+        }
+
+        .project-card .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 0) 0%, 
+                rgba(0, 0, 0, 0) 40%, 
+                rgba(0, 0, 0, 0.5) 60%,
+                rgba(0, 0, 0, 0.75) 75%,
+                rgba(0, 0, 0, 0.9) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .content {
+            opacity: 1;
+        }
+
+        .project-card h3 {
+            font-family: "Noto Serif", "Times New Roman", Georgia, serif;
+            color: #ffffff;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            line-height: 1.4;
+            margin: 0 0 0.4rem 0;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card .info-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(193, 127, 89, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: calc(var(--spacing) * 1.5) 0;
+            color: var(--text-secondary);
+            margin-top: var(--spacing);
+            border-top: 1px solid rgba(193, 127, 89, 0.1);
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .project-card .poster {
+                height: 440px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-card .poster {
+                height: 420px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --spacing: 1rem;
+            }
+
+            .talent-section .talent-name {
+                font-size: 2.5rem;
+            }
+
+            .talent-section .talent-experience {
+                font-size: 1.2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .project-filters {
+                justify-content: center;
+            }
+
+            .filter-btn {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .project-card .poster {
+                height: 320px;
+            }
+
+            .project-card .content {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .project-card .info-footer {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .project-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .year {
+                font-size: 0.95rem;
+            }
+
+            .roles {
+                font-size: 0.9rem;
+            }
+
+            .film-transition {
+                height: 220px;
+                top: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .talent-section {
+                margin-left: -1rem;
+                margin-right: -1rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .talent-section .talent-name {
+                font-size: 2rem;
+            }
+
+            .talent-section .talent-experience {
+                font-size: 1.1rem;
+            }
+
+            section {
+                padding: 1.25rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, minmax(140px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .project-card .poster {
+                height: 240px;
+            }
+
+            .project-card .content {
+                padding: 1.2rem 1rem;
+            }
+
+            .project-card .info-footer {
+                padding: 0.7rem 1rem;
+            }
+
+            .project-card h3 {
+                font-size: 1rem;
+            }
+
+            .year {
+                bottom: 3rem;
+                font-size: 0.9rem;
+                padding-top: 0.5rem;
+            }
+
+            .roles {
+                bottom: 1rem;
+                left: 1rem;
+                right: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .project-filters {
+                justify-content: center;
+                padding: 0.7rem 0.5rem;
+                gap: 0.7rem;
+                min-width: 300px;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .filter-btn {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                min-height: 32px;
+                padding: 0;
+                flex-shrink: 0;
+            }
+
+            .filter-btn svg {
+                width: 16px;
+                height: 16px;
+                display: block;
+            }
+
+            .film-transition {
+                height: 120px;
+                top: 40px;
+            }
+        }
+
+        /* Smooth scrolling and selection styles */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .company-section {
+            text-align: center;
+            margin-bottom: var(--spacing);
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .company-section::before {
+            display: none;
+        }
+
+        .company-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0.8;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .company-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            max-width: 800px;
+            font-weight: 400;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- First D -->
+                    <path d="M40 20 C50 20, 60 25, 60 40 C60 55, 50 60, 40 60 L30 60 L30 20 L40 20" fill="#FFA500"/>
+                    <!-- Second D -->
+                    <path d="M40 60 C50 60, 60 65, 60 80 C60 95, 50 100, 40 100 L30 100 L30 60 L40 60" fill="#FFA500"/>
+                    <!-- MOVIES text -->
+                    <text x="100" y="95" font-family="Arial, sans-serif" font-size="24" font-weight="bold">
+                        <tspan fill="white">M</tspan>
+                        <tspan fill="#FF0000">O</tspan>
+                        <tspan fill="white">VIES</tspan>
+                    </text>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="talent-section">
+            <div class="talent-card">
+                <h1 class="talent-name" id="name"></h1>
+                <div class="vision-statements" id="vision-statements">
+                    <!-- Vision statements will be populated by JavaScript -->
+                </div>
+                <div class="signature-container">
+                    <div class="signature" id="signature"></div>
+                    <div class="film-transition"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-section">
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all" title="All">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </button>
+                <button class="filter-btn" data-filter="DIT" title="DIT">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="1"/>
+                        <rect x="7" y="7" width="10" height="10" rx="1"/>
+                        <rect x="9" y="9" width="6" height="6" rx="1"/>
+                        <line x1="12" y1="4" x2="12" y2="20"/>
+                        <line x1="4" y1="12" x2="20" y2="12"/>
+                    </svg>
+                </button>
+                <button class="filter-btn" data-filter="Visual Effects" title="Visual Effects">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="5"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                </button>
+                <button class="filter-btn" data-filter="Post Production" title="Post Production">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="1"/>
+                        <polyline points="8 12 12 8 16 12 12 16 8 12"/>
+                    </svg>
+                </button>
+                <button class="filter-btn" data-filter="Commerical and Logos" title="Commercial & Logos">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="6" x2="12" y2="18"/>
+                        <line x1="6" y1="12" x2="18" y2="12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="projects-grid" class="projects-grid">
+                <!-- Projects will be populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load CV data from external JSON file
+        async function fetchCVData() {
+            try {
+                const response = await fetch('cv.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Loaded CV data:', data); // Debug log
+                return data;
+            } catch (error) {
+                console.error('Error loading CV data:', error);
+                return null;
+            }
+        }
+
+        // Initialize the CV data
+        async function loadCV() {
+            try {
+                const cvData = await fetchCVData();
+                if (!cvData) {
+                    throw new Error('Failed to load CV data');
+                }
+
+                // Remove the intersection observer that was causing positioning issues
+                console.log('Processing CV data...'); // Debug log
+
+                // Populate name and signature
+                const nameElement = document.getElementById('name');
+                const signatureElement = document.getElementById('signature');
+                
+                if (nameElement && cvData.name) {
+                    nameElement.textContent = cvData.name;
+                }
+                if (signatureElement && cvData.name) {
+                    signatureElement.textContent = cvData.name;
+                }
+
+                // Remove Chinese name population
+                const nameChineseElement = document.getElementById('name-chinese');
+                if (nameChineseElement) {
+                    nameChineseElement.remove();
+                }
+
+                // Populate vision statements
+                const visionContainer = document.getElementById('vision-statements');
+                if (visionContainer && Array.isArray(cvData.vision)) {
+                    cvData.vision.forEach(statement => {
+                        const p = document.createElement('p');
+                        p.className = 'vision-statement';
+                        p.textContent = statement;
+                        visionContainer.appendChild(p);
+                    });
+                }
+                
+                // Initialize projects
+                if (Array.isArray(cvData.works)) {
+                    renderProjects(cvData.works);
+                    setupFilters(cvData.works);
+                } else {
+                    console.error('Works data is not an array:', cvData.works);
+                }
+            } catch (error) {
+                console.error('Error in loadCV:', error);
+                // Display error message to user
+                const container = document.querySelector('.container');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            <h2>Error Loading Data</h2>
+                            <p>Sorry, there was a problem loading the portfolio data. Please try refreshing the page.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Render projects to the grid
+        function renderProjects(projects, filter = 'all') {
+            const projectsGrid = document.getElementById('projects-grid');
+            if (!projectsGrid) return;
+            
+            projectsGrid.innerHTML = '';
+            
+            const filteredProjects = filter === 'all' 
+                ? projects 
+                : projects.filter(project => project.roles.some(role => role.category === filter));
+            
+            // Sort projects by year in descending order
+            const sortedProjects = filteredProjects.sort((a, b) => (b.year || 0) - (a.year || 0));
+            
+            sortedProjects.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                
+                // Special case mapping for poster filenames that don't match the title
+                const specialCases = {
+                    "Sparkle Roll": "posters/Sparkle Roll Studio Logo_耀萊影視電影厂标.jpg",
+                    "Talent Television and Film": "posters/Talent Television and Film Studio Logo_唐德影視電影厂标.jpg",
+                    "Chinese Zodiac": "posters/CZ12_十二生肖.jpg",
+                    "Jackie Chan Coffee": "posters/Jackie Chan Coffee 一杯传心_成龍咖啡一杯传心.jpg"
+                };
+                
+                // Handle specific case for titles that have different poster naming
+                let posterPath;
+                if (specialCases[project.title.split('\n')[0]]) {
+                    posterPath = specialCases[project.title.split('\n')[0]];
+                    console.log('Using special case path for:', project.title, posterPath);
+                } else {
+                    // Fix the name formatting for poster paths
+                    const formattedTitle = project.title.replace(/[\n\r\/:*?"<>|]/g, ' ').trim();
+                    const formattedTitleZh = project.title_zh ? project.title_zh.replace(/[\n\r\/:*?"<>|]/g, ' ').trim() : '';
+                    
+                    posterPath = project.title_zh 
+                        ? `posters/${formattedTitle}_${formattedTitleZh}.jpg`
+                        : `posters/${formattedTitle}.jpg`;
+                }
+                
+                // Ensure the poster path is properly URL encoded
+                const encodedPosterPath = encodeURI(posterPath);
+                
+                // Debug all poster paths to check for case sensitivity issues
+                console.log('DEBUG Path for:', project.title);
+                console.log('Original Path:', posterPath);
+                console.log('Encoded Path:', encodedPosterPath);
+                
+                const roles = project.roles.map(r => 
+                    r.category === 'Visual Effects' ? `VFX ${r.role}` : r.role
+                ).join(' / ');
+                
+                projectCard.innerHTML = `
+                    <img class="poster" src="${encodedPosterPath}" alt="${project.title}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'300\\' height=\\'450\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%231a1a2e\\'/><text x=\\'50%\\' y=\\'50%\\' font-family=\\'Arial\\' font-size=\\'24\\' fill=\\'white\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\'>No Image</text></svg>'">
+                    <div class="content">
+                        <h3>${project.title}</h3>
+                        <p class="year">${project.year}</p>
+                        <p class="roles">${roles}</p>
+                    </div>
+                `;
+                
+                projectsGrid.appendChild(projectCard);
+            });
+        }
+
+        // Set up filter button listeners
+        function setupFilters(projects) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const filter = button.getAttribute('data-filter');
+                    renderProjects(projects, filter);
+                });
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', loadCV);
+    </script>
+</body>
+</html> 

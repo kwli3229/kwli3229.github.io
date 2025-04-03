@@ -1,0 +1,311 @@
+{
+    "name": "Kwai Li",
+    "name_chinese": "李貴沅",
+    "vision": [
+        "MOVING PICTURES exists beyond mere visuals.", 
+        "The work taught me something simple but strange. It's a deliberate philosophy where stories breathe through what we see and hear. Images carry experiences to people like birds' chirp. 'MARTELL(2023) - Soar Beyond The Expected' and 'tvN Movies - Idents' showed me this truth.",
+        "I learned to build drama from nothing but light and shadow. 'Our Shining Days' and 'The Liquidator' were my teachers in this quiet revolution.",
+        "The work also showed me a clean truth - good process makes good work. I discovered this while swimming through projects like 'The Foreigner' and 'Xuanzang'.",
+        "Creation stands alone like a lighthouse on a dark shore. You cannot replace it. And each image we make is a door that opens to infinite rooms, rooms we didn't know existed until we turned the knob."
+    ],
+    "works": [
+        {
+            "title": "MARTELL\nSoar Beyond The Expected",
+            "title_zh": "马爹利\n梦想与你飞翔",
+            "imdb": "",
+            "year": 2023,
+            "roles": [
+                {
+                    "category": "Commerical and Logos",
+                    "role": "Visual Supervisor"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=BPOmbOrXCNI"
+        },
+        {
+            "title": "TVN\nOpener",
+            "title_zh": "",
+            "imdb": "",
+            "year": 2023,
+            "roles": [
+                {
+                    "category": "Commerical and Logos",
+                    "role": "Director/Producer"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=JhywCFw3pr4"
+        },
+        {
+            "title": "Jackie Chan Coffee\n一杯传心",
+            "title_zh": "成龍咖啡\n一杯传心",
+            "imdb": "",
+            "year": 2018,
+            "roles": [
+                {
+                    "category": "Commerical and Logos",
+                    "role": "Director/Producer"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=BPOmbOrXCNI"
+        },
+        {
+            "title": "Talent Television and Film\nStudio Logo",
+            "title_zh": "唐德影視\n電影厂标",
+            "imdb": "",
+            "year": "",
+            "roles": [
+                {
+                    "category": "Commerical and Logos",
+                    "role": "Designer/Producer"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Sparkle Roll\nStudio Logo",
+            "title_zh": "耀萊影視\n電影厂标",
+            "imdb": "",
+            "year": "",
+            "roles": [
+                {
+                    "category": "Commerical and Logos",
+                    "role": "Producer"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Hidden Strike",
+            "title_zh": "狂怒沙暴",
+            "imdb": "tt6879446",
+            "year": 2023,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Consultant"
+                },
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Golden Job",
+            "title_zh": "黄金兄弟",
+            "imdb": "tt7075496",
+            "year": 2018,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Consultant"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Skiptrace",
+            "title_zh": "绝地逃亡",
+            "imdb": "tt4956612",
+            "year": 2016,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Consultant"
+                },
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "The Foreigner",
+            "title_zh": "英伦对决",
+            "imdb": "tt1615160",
+            "year": 2017,
+            "roles": [
+                {
+                    "category": "Post Production",
+                    "role": "Supervisor"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Xuan Zang",
+            "title_zh": "大唐玄奘",
+            "imdb": "tt4947856",
+            "year": 2016,
+            "roles": [
+                {
+                    "category": "Post Production",
+                    "role": "Supervisor"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "The Liquidator",
+            "title_zh": "心理罪之城市之光",
+            "imdb": "tt7286908",
+            "year": 2017,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Supervisor"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Our Shining Days",
+            "title_zh": "闪光少女",
+            "imdb": "tt7013194",
+            "year": 2017,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Supervisor"
+                },
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=Qqv9w-F0bgU"
+        },
+        {
+            "title": "The Climbers",
+            "title_zh": "攀登者",
+            "imdb": "tt10693022",
+            "year": 2019,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Warriors of Future",
+            "title_zh": "明日战记",
+            "imdb": "tt7375466",
+            "year": 2022,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Chinese Zodiac",
+            "title_zh": "十二生肖",
+            "imdb": "tt1424310",
+            "year": 2012,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=OPQogQKVeTk"
+        },
+        {
+            "title": "Overheard 3",
+            "title_zh": "窃听风云3",
+            "imdb": "tt3121442",
+            "year": 2014,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": "https://www.youtube.com/watch?v=jn2E-xRnG_s"
+        },
+        {
+            "title": "The Four 2",
+            "title_zh": "四大名捕 2",
+            "imdb": "tt3341084",
+            "year": 2013,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "The Four 3",
+            "title_zh": "四大名捕 3",
+            "imdb": "tt3919278",
+            "year": 2014,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Tai Chi Zero",
+            "title_zh": "太极1 从零开始",
+            "imdb": "tt1981080",
+            "year": 2012,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Tai Chi Hero",
+            "title_zh": "太极2 英雄崛起",
+            "imdb": "tt2296404",
+            "year": 2012,
+            "roles": [
+                {
+                    "category": "DIT",
+                    "role": "DIT"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Ip Man",
+            "title_zh": "叶问",
+            "imdb": "tt1220719",
+            "year": 2008,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Production Manager"
+                }
+            ],
+            "youtube_url": ""
+        },
+        {
+            "title": "Ip Man 2",
+            "title_zh": "叶问2",
+            "imdb": "tt1386932",
+            "year": 2010,
+            "roles": [
+                {
+                    "category": "Visual Effects",
+                    "role": "Production Manager"
+                }
+            ],
+            "youtube_url": ""
+        }
+    ]
+}
